@@ -1,11 +1,25 @@
 import PostModel from "../../models/PostModel";
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-export default function Post(post: PostModel) {
+interface PostProps extends PostModel {
+    setSelectedPost: (post: PostModel) => void;
+    onDeletePost: (id: number) => void;
+}
+
+export default function Post({ id, title, author, content, setSelectedPost, onDeletePost }: PostProps) {
     return (
-        <div>
-            <p>ID: {post.id}</p>
-            <p>Title: {post.title}</p>
-            <p>Author: {post.author}</p>
+        <div onClick={() => setSelectedPost({ id, title, author, content })} className="post">
+            <p>ID: {id}</p>
+            <p>Title: {title}</p>
+            <p>Author: {author}</p>
+            <div className="post-actions">
+                <button className="edit-button">
+                    <FaEdit /> Edit
+                </button>
+                <button onClick={() => onDeletePost(id)} className="delete-button">
+                    <FaTrash /> Delete
+                </button>
+            </div>
         </div>
     )
 }

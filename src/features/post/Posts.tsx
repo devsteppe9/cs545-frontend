@@ -4,14 +4,21 @@ import './Posts.css';
 
 interface PostsProps {
     posts: PostModel[];
+    setSelectedPost: (post: PostModel) => void;
+    onDeletePost: (id: number) => void;
 }
 
-export default function Posts({ posts }: PostsProps) {
+export default function Posts({ posts, setSelectedPost, onDeletePost }: PostsProps) {
     return (
         <div className="posts-container">
             {
                 posts.map(
-                    p => <Post key={p.id} {...p}></Post>
+                    p => {
+                        return <Post key={p.id} {...p}
+                            setSelectedPost={setSelectedPost}
+                            onDeletePost={onDeletePost}
+                        />
+                    }
                 )
             }
         </div>

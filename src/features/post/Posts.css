@@ -11,4 +11,33 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: left;
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+}
+
+.posts-container > div:hover {
+    transform: scale(1.05); /* Scale up on hover */
+    cursor: pointer; /* Change cursor to pointer */
+}
+.posts-container > div:active {
+    background-color: #5A9; /* Change background color on click */
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.edit-button, .delete-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edit-button:hover, .delete-button:hover {
+    color: #FFD700; /* Change color on hover */
 }
