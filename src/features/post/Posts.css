@@ -1,0 +1,14 @@
+.posts-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.posts-container > div {
+    background-color: #4682B4; /* Blue background color */
+    color: white; /* White text color */
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
