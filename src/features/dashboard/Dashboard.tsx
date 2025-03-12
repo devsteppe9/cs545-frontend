@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import PostModel from "../../models/PostModel";
 import Posts from "../post/Posts";
 import { deleteRequest, get } from "../../services/fetchService";
 import PostDetails from "../postDetails/PostDetails";
 import AddPost from "../postDetails/AddPost";
+
+export const SelectedPostContext = createContext<React.Dispatch<React.SetStateAction<PostModel | null>> | null>(null);
 
 export default function Dashboard() {
 
@@ -41,25 +43,27 @@ export default function Dashboard() {
     }, [flag]);
 
     return (
-        <div>
-            <h1>Dashboard</h1>
-            <p>Welcome to the dashboard</p>
+        <SelectedPostContext.Provider value={setSelectedPost}>
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome to the dashboard</p>
 
-            <h1>Posts</h1>
-            <Posts posts={posts} setSelectedPost={setSelectedPost} onDeletePost={onDeletePost} />
-            <input placeholder="Update title" type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-            <button onClick={updateFirstPostTitle}>Update</button>
+                <h1>Posts</h1>
+                <Posts posts={posts} onDeletePost={onDeletePost} />
+                <input placeholder="Update title" type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+                <button onClick={updateFirstPostTitle}>Update</button>
 
-            {selectedPost && <PostDetails
-                id={selectedPost.id}
-                title={selectedPost.title}
-                author={selectedPost.author}
-                content={selectedPost.content}
-                setFlag={setFlag}
-            />}
+                {selectedPost && <PostDetails
+                    id={selectedPost.id}
+                    title={selectedPost.title}
+                    author={selectedPost.author}
+                    content={selectedPost.content}
+                    setFlag={setFlag}
+                />}
 
-            <AddPost setFlag={setFlag} />
+                <AddPost setFlag={setFlag} />
 
-        </div>
+            </div>
+        </SelectedPostContext.Provider>
     )
 }

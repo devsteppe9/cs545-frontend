@@ -1,15 +1,19 @@
-import { useState } from "react";
-import { postRequest, updateRequest } from "../../services/fetchService";
-
+import { useRef } from "react";
+import { postRequest } from "../../services/fetchService";
 
 export default function AddPost({ setFlag }: { setFlag: (value: React.SetStateAction<boolean>) => void }) {
 
-    const [postTitle, setPostTitle] = useState('');
-    const [postContent, setPostContent] = useState('');
-    const [postAuthor, setPostAuthor] = useState('');
+    const formRef = useRef<HTMLFormElement>(null);
 
     const handleSave = async () => {
-        const postData = { title: postTitle, content: postContent, author: postAuthor };
+        const postData = { title: '', content: '', author: '' };
+        if (formRef.current) {
+            const form = formRef.current;
+            postData['title'] = (form.elements.namedItem('title') as HTMLInputElement).value;
+            postData['content'] = (form.elements.namedItem('content') as HTMLTextAreaElement).value;
+            postData['author'] = (form.elements.namedItem('author') as HTMLInputElement).value;
+        }
+
         try {
             await postRequest(`users/1/posts`, postData);
             console.log('Post saved successfully:');
@@ -23,28 +27,25 @@ export default function AddPost({ setFlag }: { setFlag: (value: React.SetStateAc
         <div>
             <h1>Create new post</h1>
             <hr />
-            <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+            <form ref={formRef} onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
                 <div>
                     <label>Post title:</label>
                     <input placeholder="Title"
                         type="text"
-                        value={postTitle}
-                        onChange={(e) => setPostTitle(e.target.value)}
+                        name="title"
                     />
                 </div>
                 <div>
                     <label>Content:</label>
                     <textarea placeholder="Content"
-                        value={postContent}
-                        onChange={(e) => setPostContent(e.target.value)}
+                        name="content"
                     />
                 </div>
                 <div>
                     <label>Author:</label>
                     <input placeholder="Author"
                         type="text"
-                        value={postAuthor}
-                        onChange={(e) => setPostAuthor(e.target.value)}
+                        name="author"
                     />
                 </div>
                 <button type="submit">Create new</button>
