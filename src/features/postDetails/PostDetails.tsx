@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PostModel from "../../models/PostModel";
 import { updateRequest } from "../../services/fetchService";
+import { useNavigate } from "react-router-dom";
 
 interface PostDetailsProps extends PostModel {
     setFlag: (value: React.SetStateAction<boolean>) => void
@@ -11,6 +12,7 @@ export default function PostDetails({ id, title, content, author, setFlag }: Pos
     const [postTitle, setPostTitle] = useState(title);
     const [postContent, setPostContent] = useState(content);
     const [postAuthor, setPostAuthor] = useState(author);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setPostTitle(title);
@@ -24,6 +26,8 @@ export default function PostDetails({ id, title, content, author, setFlag }: Pos
             await updateRequest(`posts/${id}`, updateData);
             console.log('Post saved successfully:');
             setFlag((prev) => !prev);
+            // go to /posts link
+            navigate('/posts');
         } catch (error) {
             console.error('Error saving post:', error);
         }

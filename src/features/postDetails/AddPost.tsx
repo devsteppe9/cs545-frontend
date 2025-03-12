@@ -1,9 +1,11 @@
 import { useRef } from "react";
 import { postRequest } from "../../services/fetchService";
+import { useNavigate } from 'react-router-dom';
 
 export default function AddPost({ setFlag }: { setFlag: (value: React.SetStateAction<boolean>) => void }) {
 
     const formRef = useRef<HTMLFormElement>(null);
+    const navigate = useNavigate();
 
     const handleSave = async () => {
         const postData = { title: '', content: '', author: '' };
@@ -18,6 +20,10 @@ export default function AddPost({ setFlag }: { setFlag: (value: React.SetStateAc
             await postRequest(`users/1/posts`, postData);
             console.log('Post saved successfully:');
             setFlag((prev) => !prev);
+            // go to /posts link
+            // window.location.href = '/posts';
+            navigate('/posts');
+
         } catch (error) {
             console.error('Error saving post:', error);
         }

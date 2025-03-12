@@ -2,6 +2,7 @@ import { useContext } from "react";
 import PostModel from "../../models/PostModel";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { SelectedPostContext } from "../dashboard/Dashboard";
+import { useNavigate } from "react-router-dom";
 
 interface PostProps extends PostModel {
     onDeletePost: (id: number) => void;
@@ -9,9 +10,17 @@ interface PostProps extends PostModel {
 
 export default function Post({ id, title, author, content, onDeletePost }: PostProps) {
     const anothetSetSelectedPost = useContext(SelectedPostContext);
+    const navigate = useNavigate();
+
+    const onClickHandler = () => {
+        if (anothetSetSelectedPost) {
+            anothetSetSelectedPost({ id, title, author, content });
+            navigate(`/posts/${id}`);
+        }
+    }
+
     return (
-        // <div onClick={() => setSelectedPost({ id, title, author, content })} className="post">
-        <div onClick={() => anothetSetSelectedPost && anothetSetSelectedPost({ id, title, author, content })} className="post">
+        <div onClick={onClickHandler} className="post">
             <p>ID: {id}</p>
             <p>Title: {title}</p>
             <p>Author: {author}</p>
